@@ -3,10 +3,7 @@
 // @version        1
 // @namespace      gordondev
 // @description    Adds display of Carb/Protein/Fat percentages to any daily food diary page. Based on "MyFitnessPal Percentages and Net Carbs"
-// @include http://www.myfitnesspal.com/food/diary/* 
-// @include https://www.myfitnesspal.com/food/diary/*
-// @include http://www.myfitnesspal.com/food/diary
-// @include https://www.myfitnesspal.com/food/diary
+// @match        *www.myfitnesspal.com/food/diary/*
 // @grant none
 // ==/UserScript==
 
@@ -32,6 +29,12 @@ function exec(fn) {
     document.body.removeChild(script); // clean up
 }
 
+function addJquery() {
+    script = document.createElement("script");
+    script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js");
+    document.body.appendChild(script);
+}
+
 function startRun() {
     var script = document.createElement("script");
     script.setAttribute("src", "//www.google.com/jsapi");
@@ -40,12 +43,11 @@ function startRun() {
     }, false);
     document.body.appendChild(script);
 
-    script = document.createElement("script");
-    script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js");
-    script.addEventListener('load', function () {
-        exec("jQuery.noConflict();");
-    }, false);
-    document.body.appendChild(script);
+    // $ just makes life easier
+    // We won't be picky with whether it's $ or Zepto, though
+    if(typeof $ == 'undefined') {
+        addJquery();
+    }
 
     script = document.createElement('script');
     script.setAttribute("type", "application/javascript");
@@ -69,11 +71,11 @@ function main() {
     var daily_total_protein = 0;
     var daily_total_fat = 0;
 
-    var header_tr_element = jQuery('.food_container tr.meal_header:first');
+    var header_tr_element = $('.food_container tr.meal_header:first');
 
     var elem_i = 0;
     header_tr_element.find('td').each(function () {
-        var myval = jQuery(this).text().toLowerCase();
+        var myval = $(this).text().toLowerCase();
         if (myval == 'calories') { calories_i = elem_i; }
         if (myval == 'carbs') { carbs_i = elem_i; }
         // if (myval == 'fiber') { fiber_i = elem_i; }
@@ -83,10 +85,10 @@ function main() {
         elem_i += 1;
     });
 
-    var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
+    var bottom_tr_elements = $('.food_container tr.bottom, .food_container tr.total');
     bottom_tr_elements.each(function () {
 
-        if (jQuery(this).hasClass('remaining')) {
+        if ($(this).hasClass('remaining')) {
             return false; /* continue */
         }
 
@@ -96,7 +98,7 @@ function main() {
         var protein = 0;
         var fat = 0;
 
-        var tds = jQuery(this).find('td');
+        var tds = $(this).find('td');
         var cals = tds.eq(calories_i).text();
         var carbs = tds.eq(carbs_i).text();
         var protein = tds.eq(protein_i).text();
@@ -111,8 +113,8 @@ function main() {
         var protein_cals = (protein * 4);
         var fat_cals = (fat * 9);
 
-        if (jQuery(this).hasClass('total')
-                && !jQuery(this).hasClass('alt')
+        if ($(this).hasClass('total')
+                && !$(this).hasClass('alt')
                 && daily_total_carbs == 0) {
             daily_total_carbs = carb_cals;
             daily_total_protein = protein_cals;
@@ -129,7 +131,7 @@ function main() {
         fat_pct = Math.round(fat_pct);
         protein_pct = Math.round(protein_pct);
 
-        tds.each(function () { jQuery(this).append('<div class="myfp_us" style="color:#0a0;font-size:9px;text-align:center;">&nbsp;</div>'); });
+        tds.each(function () { $(this).append('<div class="myfp_us" style="color:#0a0;font-size:9px;text-align:center;">&nbsp;</div>'); });
 
         tds.eq(0).find('div.myfp_us').html("");
 
@@ -145,7 +147,7 @@ function main() {
     });
 
     if (daily_total_carbs != 0 || daily_total_protein != 0 || daily_total_fat != 0) {
-        jQuery('.food_container').append('<div id="google_graph_1"></div>');
+        $('.food_container').append('<div id="google_graph_1"></div>');
 
         var data1 = new google.visualization.DataTable();
         data1.addColumn('string', 'Type');
@@ -160,7 +162,7 @@ function main() {
         chart.draw(data1, { width: 350, height: 300, title: 'Daily Totals by Calories (This is what you use for your macro ratios)' });
         document.getElementById('google_graph_1').style.cssFloat = "left";
 
-        jQuery('.food_container').append('<div id="google_graph_2"></div>');
+        $('.food_container').append('<div id="google_graph_2"></div>');
 
         carb_grams = daily_total_carbs / 4;
         pro_grams = daily_total_protein / 4;
