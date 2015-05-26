@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name           MyFitnessPal Percentages
-// @version        1
+// @version        1.1
 // @namespace      gordondev
 // @description    Adds display of Carb/Protein/Fat percentages to any daily food diary page. Based on "MyFitnessPal Percentages and Net Carbs"
-// @match        *www.myfitnesspal.com/food/diary/*
+// @match          www.myfitnesspal.com/food/diary/*
 // @grant none
 // ==/UserScript==
 
