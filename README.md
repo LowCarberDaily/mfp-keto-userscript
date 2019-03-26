@@ -9,10 +9,10 @@ Based off of the popular net carbs calculator script, this script is for those w
 <li><b>Chrome</b>: Install <a href="https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a>.</li>
 <li><b>Firefox</b>: Install <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">Greasemonkey</a></li>
 <li><b>Internet Explorer</b>: Not sure anymore, old plugin is gone.</li>
-<li><b>ALL: After installing the plugin, go to https://github.com/ShaunaGordon/mfp-keto-userscript/raw/master/mfppercentages.user.js to install.</b>
+<li><b>ALL: After installing the plugin, go to https://github.com/LowCarberDaily/mfp-keto-userscript/raw/master/mfppercentages.user.js to install.</b>
 </ul>
 
 <h1>Upgrade:</h1>
 <ul>
-<li>Just visit https://github.com/ShaunaGordon/mfp-keto-userscript/raw/master/mfppercentages.user.js and click Upgrade.</li>
+<li>Just visit https://github.com/LowCarberDaily/mfp-keto-userscript/raw/master/mfppercentages.user.js and click Upgrade.</li>
 </ul>
